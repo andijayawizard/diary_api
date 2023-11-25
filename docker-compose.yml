@@ -1,0 +1,28 @@
+version: "3"
+services:
+  app:
+    build: .
+    container_name: app
+    ports:
+      - ${PORT}:${PORT}
+    links:
+      - postgres
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:alpine
+    container_name: postgres
+    ports:
+      - ${DB_PORT}:${DB_PORT_DOCKER}
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db-diary-api:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  db-diary-api:
