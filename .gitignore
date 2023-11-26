@@ -2,3 +2,4 @@
 .env.local
 /tmp
 /.vscode
+/pg_data
