@@ -5,10 +5,16 @@ services:
     container_name: app
     ports:
       - ${PORT}:${PORT}
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}      
     links:
       - postgres
     depends_on:
       - postgres
+    networks:
+      - diary_api
   postgres:
     image: postgres:alpine
     container_name: postgres
@@ -17,8 +23,11 @@ services:
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}      
     volumes:
       - db-diary-api:/var/lib/postgresql/data
+    networks:
+      - diary_api
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -26,3 +35,6 @@ services:
       retries: 5
 volumes:
   db-diary-api:
+networks:
+  diary_api:
+    driver: bridge
