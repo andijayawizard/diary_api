@@ -1,14 +1,14 @@
 version: '3.9'
 services:
   app:
-    container_name: golang_container
+    container_name: go-app
     environment:
-      DATABASE_URL: ${DATABASE_URL}
-      # - POSTGRES_USER=${DB_USER}
-      # - POSTGRES_PASSWORD=${DB_PASSWORD}
-      # - POSTGRES_DB=${DB_NAME}
-      # - DATABASE_HOST=${DB_HOST}
-      # - DATABASE_PORT=${DB_PORT}
+      # DATABASE_URL: ${DATABASE_URL}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - DATABASE_HOST=${DB_HOST}
+      - DATABASE_PORT=${DB_PORT}
       # - TEST_POSTGRES_USER=${TEST_DB_USER}
       # - TEST_POSTGRES_PASSWORD=${TEST_DB_PASSWORD}
       # - TEST_POSTGRES_DB=${TEST_DB_NAME}
@@ -28,16 +28,17 @@ services:
 
   postgresdb:
     image: postgres:latest
-    container_name: postgres_container
+    container_name: psql-db
+    restart: always
     environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
-      - DATABASE_HOST=${DB_HOST}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      DATABASE_HOST: ${DB_HOST}
     ports:
       - '${DB_PORT}:${DB_PORT}'
     volumes:
-      - ./pg_data:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
     networks:
       - learning
 
