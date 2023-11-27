@@ -2,7 +2,7 @@
 FROM golang:alpine
 
 # Add Maintainer info
-LABEL maintainer="Agus Wibawantara"
+LABEL maintainer="andijayawizard"
 
 # Install git.
 # Git is required for fetching the dependencies.
@@ -24,6 +24,8 @@ RUN go install -v ./...
 
 #Setup hot-reload for dev stage
 RUN go get github.com/githubnemo/CompileDaemon
+# RUN go install github.com/githubnemo/CompileDaemon
 RUN go get -v golang.org/x/tools/gopls
 
 ENTRYPOINT CompileDaemon --build="go build -a -installsuffix cgo -o main ." --command=./main
+# ENTRYPOINT CompileDaemon -build="go build -o /build/app" -command="/build/app"
