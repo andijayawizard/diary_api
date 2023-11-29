@@ -8,6 +8,10 @@ LABEL maintainer="andijayawizard"
 # Git is required for fetching the dependencies.
 RUN apk update && apk add --no-cache git && apk add --no-cache bash && apk add build-base
 
+ENV PROJECT_DIR=/app \
+    GO111MODULE=on \
+    CGO_ENABLED=0
+
 # Setup folders
 RUN mkdir /app
 WORKDIR /app
@@ -29,3 +33,4 @@ RUN go get -v golang.org/x/tools/gopls
 
 ENTRYPOINT CompileDaemon --build="go build -a -installsuffix cgo -o main ." --command=./main
 # ENTRYPOINT CompileDaemon -build="go build -o /build/app" -command="/build/app"
+# ENTRYPOINT CompileDaemon -build="go build -o /app" -command="/app" -buildvcs="false"

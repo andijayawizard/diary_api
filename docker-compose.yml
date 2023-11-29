@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 services:
   app:
     container_name: go-app
@@ -36,7 +36,7 @@ services:
       POSTGRES_DB: ${DB_NAME}
       DATABASE_HOST: ${DB_HOST}
     ports:
-      - '${DB_PORT}:${DB_PORT}'
+      - "${DB_PORT}:${DB_PORT}"
     volumes:
       - pg_data:/var/lib/postgresql/data
     networks:
